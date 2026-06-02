@@ -11,6 +11,23 @@ function getString(formData: FormData, key: string) {
 	return String(formData.get(key) ?? '').trim();
 }
 
+function getOptionalMoneyValue(formData: FormData, key: string) {
+	const rawValue = getString(formData, key);
+
+	if (!rawValue) {
+		return null;
+	}
+
+	const cleanedValue = rawValue.replace(/[$,]/g, '');
+	const value = Number(cleanedValue);
+
+	if (!Number.isFinite(value) || value < 0) {
+		return null;
+	}
+
+	return value;
+}
+
 async function getCurrentBusinessId() {
 	const supabase = await createClient();
 
@@ -64,4 +81,47 @@ export async function updateLeadStatusAction(formData: FormData) {
 	revalidatePath(`/dashboard/leads/${leadId}`);
 
 	redirect(`/dashboard/leads/${leadId}`);
+}
+
+export async function updateLeadOutcomeAction(formData: FormData) {
+	const leadId = getString(formData, 'lead_id');
+	const status = getString(formData, 'status');
+
+	if (!leadId || !allowedStatuses.has(status)) {
+		redirect('/dashboard/leads');
+	}
+
+	const estimatedValue = getOptionalMoneyValue(formData, 'estimated_value');
+	const bookedValue = getOptionalMoneyValue(formData, 'booked_value');
+
+	const supabase = await createClient();
+	const businessId = await getCurrentBusinessId();
+
+	const updatePayload: {
+		status: string;
+		estimated_value: number | null;
+		booked_value: number | null;
+	} = {
+		status,
+		estimated_value: estimatedValue,
+		booked_value: status === 'booked' ? bookedValue : null,
+	};
+
+	const { error } = await supabase
+		.from('leads')
+		.update(updatePayload)
+		.eq('id', leadId)
+		.eq('business_id', businessId);
+
+	if (error) {
+		redirect(
+			`/dashboard/leads/${leadId}?error=${encodeURIComponent(error.message)}`,
+		);
+	}
+
+	revalidatePath('/dashboard');
+	revalidatePath('/dashboard/leads');
+	revalidatePath(`/dashboard/leads/${leadId}`);
+
+	redirect(`/dashboard/leads/${leadId}?saved=1`);
 }

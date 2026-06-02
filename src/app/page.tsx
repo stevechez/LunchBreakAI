@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { SiteFooter } from '@/components/Footer';
 
 const pricing = [
 	{
@@ -468,6 +469,7 @@ export default function LunchBreakReceptionistLandingPage() {
 					</div>
 				</div>
 			</section>
+			<SiteFooter />
 		</main>
 	);
 }

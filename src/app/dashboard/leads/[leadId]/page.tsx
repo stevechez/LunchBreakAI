@@ -1,11 +1,20 @@
 // src/app/dashboard/leads/[leadId]/page.tsx
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
-import { ArrowLeft, CalendarDays, Mail, MapPin, Phone } from 'lucide-react';
+import {
+	ArrowLeft,
+	CalendarDays,
+	DollarSign,
+	Mail,
+	MapPin,
+	Phone,
+} from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
-import { updateLeadStatusAction } from '../actions';
+import { updateLeadOutcomeAction, updateLeadStatusAction } from '../actions';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 type LeadDetailPageProps = {
 	params: Promise<{
@@ -13,6 +22,7 @@ type LeadDetailPageProps = {
 	}>;
 	searchParams: Promise<{
 		error?: string;
+		saved?: string;
 	}>;
 };
 
@@ -39,6 +49,12 @@ async function getCurrentBusinessId() {
 	}
 
 	return membership.business_id;
+}
+
+function formatMoney(value?: number | null) {
+	if (!value) return 'Not set';
+
+	return `$${Number(value).toLocaleString()}`;
 }
 
 export default async function LeadDetailPage({
@@ -104,6 +120,8 @@ export default async function LeadDetailPage({
 	}
 
 	const primaryCall = lead.calls?.[0];
+	const isBooked = lead.status === 'booked';
+	const displayRevenue = lead.booked_value || lead.estimated_value || null;
 
 	return (
 		<div>
@@ -118,16 +136,29 @@ export default async function LeadDetailPage({
 
 				<div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
 					<div>
-						<h1 className="text-3xl font-bold tracking-tight text-slate-950">
+						<p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">
+							Recovered missed-call lead
+						</p>
+
+						<h1 className="mt-2 text-3xl font-bold tracking-tight text-slate-950">
 							{lead.caller_name || 'Unknown caller'}
 						</h1>
+
 						<p className="mt-2 text-slate-600">
 							{lead.service_needed || 'No service specified'}
 						</p>
 					</div>
 
-					<div className="rounded-full bg-slate-950 px-4 py-2 text-sm font-medium text-white">
-						{lead.status}
+					<div className="flex flex-wrap gap-3">
+						<div className="rounded-full bg-slate-950 px-4 py-2 text-sm font-medium text-white">
+							{lead.status}
+						</div>
+
+						{displayRevenue ? (
+							<div className="rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700">
+								{formatMoney(displayRevenue)}
+							</div>
+						) : null}
 					</div>
 				</div>
 			</div>
@@ -135,6 +166,12 @@ export default async function LeadDetailPage({
 			{query.error ? (
 				<div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
 					{query.error}
+				</div>
+			) : null}
+
+			{query.saved ? (
+				<div className="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+					Lead outcome saved.
 				</div>
 			) : null}
 
@@ -179,6 +216,100 @@ export default async function LeadDetailPage({
 				</div>
 
 				<div className="space-y-6">
+					<Card
+						className={
+							isBooked
+								? 'border-emerald-200 bg-emerald-50/40'
+								: 'border-blue-100 bg-blue-50/30'
+						}
+					>
+						<CardHeader>
+							<div className="flex items-start gap-3">
+								<div
+									className={
+										isBooked
+											? 'rounded-2xl bg-emerald-100 p-3 text-emerald-700'
+											: 'rounded-2xl bg-blue-100 p-3 text-blue-700'
+									}
+								>
+									<DollarSign className="h-5 w-5" />
+								</div>
+
+								<div>
+									<CardTitle>Lead outcome</CardTitle>
+									<p className="mt-2 text-sm text-slate-600">
+										Track whether this recovered call became real revenue.
+									</p>
+								</div>
+							</div>
+						</CardHeader>
+
+						<CardContent>
+							<form action={updateLeadOutcomeAction} className="space-y-5">
+								<input type="hidden" name="lead_id" value={lead.id} />
+
+								<div className="space-y-2">
+									<Label htmlFor="status">Status</Label>
+									<select
+										id="status"
+										name="status"
+										defaultValue={lead.status}
+										className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm"
+									>
+										<option value="new">New</option>
+										<option value="contacted">Contacted</option>
+										<option value="booked">Booked</option>
+										<option value="lost">Lost</option>
+										<option value="spam">Spam</option>
+									</select>
+								</div>
+
+								<div className="space-y-2">
+									<Label htmlFor="estimated_value">Estimated value</Label>
+									<Input
+										id="estimated_value"
+										name="estimated_value"
+										inputMode="decimal"
+										placeholder="950"
+										defaultValue={lead.estimated_value ?? ''}
+									/>
+									<p className="text-xs text-slate-500">
+										Expected job value before the lead is confirmed.
+									</p>
+								</div>
+
+								<div className="space-y-2">
+									<Label htmlFor="booked_value">Booked value</Label>
+									<Input
+										id="booked_value"
+										name="booked_value"
+										inputMode="decimal"
+										placeholder="1200"
+										defaultValue={lead.booked_value ?? ''}
+									/>
+									<p className="text-xs text-slate-500">
+										Actual value once the job is booked. Used for ROI reporting.
+									</p>
+								</div>
+
+								<Button className="w-full rounded-xl">Save lead outcome</Button>
+							</form>
+
+							<div className="mt-5 rounded-2xl border bg-white p-4">
+								<p className="text-sm font-medium text-slate-950">
+									Revenue attribution
+								</p>
+								<p className="mt-2 text-sm text-slate-600">
+									{isBooked
+										? `This recovered lead is counted toward booked revenue at ${formatMoney(
+												lead.booked_value || lead.estimated_value,
+											)}.`
+										: 'Mark this lead as booked when it becomes a real job.'}
+								</p>
+							</div>
+						</CardContent>
+					</Card>
+
 					<Card>
 						<CardHeader>
 							<CardTitle>Caller details</CardTitle>
@@ -219,9 +350,21 @@ export default async function LeadDetailPage({
 							<div>
 								<p className="font-medium text-slate-500">Estimated value</p>
 								<p className="mt-1 text-slate-950">
-									{lead.estimated_value
-										? `$${lead.estimated_value}`
-										: 'Not set'}
+									{formatMoney(lead.estimated_value)}
+								</p>
+							</div>
+
+							<div>
+								<p className="font-medium text-slate-500">Booked value</p>
+								<p className="mt-1 text-slate-950">
+									{formatMoney(lead.booked_value)}
+								</p>
+							</div>
+
+							<div>
+								<p className="font-medium text-slate-500">Source</p>
+								<p className="mt-1 text-slate-950">
+									{lead.source || 'Not set'}
 								</p>
 							</div>
 						</CardContent>
@@ -229,7 +372,7 @@ export default async function LeadDetailPage({
 
 					<Card>
 						<CardHeader>
-							<CardTitle>Update status</CardTitle>
+							<CardTitle>Quick status</CardTitle>
 						</CardHeader>
 
 						<CardContent>
@@ -244,7 +387,7 @@ export default async function LeadDetailPage({
 												name="status"
 												value={status}
 												variant={lead.status === status ? 'default' : 'outline'}
-												className="rounded-xl"
+												className="rounded-xl capitalize"
 											>
 												{status}
 											</Button>
