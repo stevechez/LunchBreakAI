@@ -2,6 +2,11 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { createBusinessAction } from './actions';
+import {
+	getDefaultGreeting,
+	getVerticalLabel,
+	normalizeVertical,
+} from '@/lib/verticals';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,6 +16,7 @@ import { Textarea } from '@/components/ui/textarea';
 type OnboardingPageProps = {
 	searchParams: Promise<{
 		error?: string;
+		vertical?: string;
 	}>;
 };
 
@@ -18,6 +24,9 @@ export default async function OnboardingPage({
 	searchParams,
 }: OnboardingPageProps) {
 	const params = await searchParams;
+	const vertical = normalizeVertical(params.vertical);
+	const verticalLabel = getVerticalLabel(vertical);
+
 	const supabase = await createClient();
 
 	const {
@@ -25,7 +34,7 @@ export default async function OnboardingPage({
 	} = await supabase.auth.getUser();
 
 	if (!user) {
-		redirect('/login');
+		redirect(`/login?next=/onboarding?vertical=${vertical}`);
 	}
 
 	const { data: membership } = await supabase
@@ -38,6 +47,8 @@ export default async function OnboardingPage({
 		redirect('/dashboard');
 	}
 
+	const greetingPlaceholder = getDefaultGreeting(vertical, 'your business');
+
 	return (
 		<main className="min-h-screen bg-slate-950 px-6 py-10 text-white">
 			<div className="mx-auto max-w-3xl">
@@ -45,10 +56,14 @@ export default async function OnboardingPage({
 					<p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-300">
 						Setup
 					</p>
+
 					<h1 className="mt-3 text-4xl font-bold tracking-tight">
 						Set up your AI receptionist
 					</h1>
+
 					<p className="mt-3 text-slate-300">
+						You are setting up Lunch Break AI for{' '}
+						<span className="font-semibold text-white">{verticalLabel}</span>.
 						Add the basics now. You can refine the greeting, questions, and call
 						handling later.
 					</p>
@@ -67,26 +82,32 @@ export default async function OnboardingPage({
 						) : null}
 
 						<form action={createBusinessAction} className="space-y-6">
+							<input type="hidden" name="vertical" value={vertical} />
+							<input type="hidden" name="industry" value={vertical} />
+
 							<div className="space-y-2">
 								<Label htmlFor="business_name">Business name</Label>
 								<Input
 									id="business_name"
 									name="business_name"
 									required
-									placeholder="Flash Movers LLC"
+									placeholder="Example Garage Door Co."
 									className="bg-white text-slate-950"
 								/>
 							</div>
 
 							<div className="grid gap-6 md:grid-cols-2">
 								<div className="space-y-2">
-									<Label htmlFor="industry">Industry</Label>
+									<Label htmlFor="vertical_display">Industry</Label>
 									<Input
-										id="industry"
-										name="industry"
-										placeholder="movers"
-										className="bg-white text-slate-950"
+										id="vertical_display"
+										value={verticalLabel}
+										readOnly
+										className="bg-white/90 text-slate-950"
 									/>
+									<p className="text-xs text-slate-400">
+										This came from the landing page you signed up from.
+									</p>
 								</div>
 
 								<div className="space-y-2">
@@ -128,6 +149,7 @@ export default async function OnboardingPage({
 									id="notification_email"
 									name="notification_email"
 									type="email"
+									defaultValue={user.email ?? ''}
 									placeholder="owner@example.com"
 									className="bg-white text-slate-950"
 								/>
@@ -138,7 +160,7 @@ export default async function OnboardingPage({
 								<Input
 									id="service_area"
 									name="service_area"
-									placeholder="Mountain View, Palo Alto, San Jose"
+									placeholder="Santa Cruz, San Jose, Monterey"
 									className="bg-white text-slate-950"
 								/>
 							</div>
@@ -148,9 +170,12 @@ export default async function OnboardingPage({
 								<Textarea
 									id="greeting"
 									name="greeting"
-									placeholder="Thanks for calling Flash Movers. I can help get your move request started."
+									placeholder={greetingPlaceholder}
 									className="min-h-28 bg-white text-slate-950"
 								/>
+								<p className="text-xs text-slate-400">
+									Leave blank to use the default {verticalLabel} greeting.
+								</p>
 							</div>
 
 							<Button className="rounded-xl">Create dashboard</Button>
