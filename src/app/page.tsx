@@ -13,6 +13,7 @@ import {
 	Mail,
 	Wrench,
 } from 'lucide-react';
+import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SiteFooter } from '@/components/Footer';
@@ -122,9 +123,21 @@ export default function LunchBreakReceptionistLandingPage() {
 								FAQ
 							</a>
 						</div>
-						<Button className="rounded-2xl bg-white text-slate-950 hover:bg-slate-200">
-							Join waitlist
-						</Button>
+						<div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+							<Link
+								href="/signup"
+								className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-slate-100"
+							>
+								Start free demo
+							</Link>
+
+							<Link
+								href="/login"
+								className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+							>
+								Log in
+							</Link>
+						</div>
 					</nav>
 
 					<div className="grid items-center gap-12 py-20 lg:grid-cols-2 lg:py-28">

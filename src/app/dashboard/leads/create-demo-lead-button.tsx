@@ -37,7 +37,7 @@ export function CreateDemoLeadButton() {
 			disabled={isLoading}
 			className="rounded-xl"
 		>
-			{isLoading ? 'Creating...' : 'Create demo lead'}
+			{isLoading ? 'Capturing missed call...' : 'Simulate missed call'}
 		</Button>
 	);
 }
