@@ -190,15 +190,31 @@ export default async function LeadDetailPage({
 
 					<Card>
 						<CardHeader>
-							<CardTitle>Call transcript</CardTitle>
+							<CardTitle>Voicemail recording</CardTitle>
 						</CardHeader>
 						<CardContent>
-							{primaryCall?.transcript ? (
-								<pre className="whitespace-pre-wrap rounded-xl bg-slate-950 p-5 text-sm leading-7 text-slate-100">
-									{primaryCall.transcript}
-								</pre>
+							{primaryCall?.recording_url ? (
+								<div className="space-y-3">
+									<audio
+										controls
+										className="w-full rounded-xl"
+										src={`/api/recording?url=${encodeURIComponent(primaryCall.recording_url)}`}
+									>
+										Your browser does not support audio playback.
+									</audio>
+									{primaryCall.transcript ? (
+										<pre className="whitespace-pre-wrap rounded-xl bg-slate-950 p-5 text-sm leading-7 text-slate-100">
+											{primaryCall.transcript}
+										</pre>
+									) : (
+										<p className="text-sm text-slate-500">
+											Transcript not available. Use the player above to hear the
+											message.
+										</p>
+									)}
+								</div>
 							) : (
-								<p className="text-slate-500">No transcript available.</p>
+								<p className="text-slate-500">No voicemail recorded.</p>
 							)}
 						</CardContent>
 					</Card>
@@ -211,6 +227,66 @@ export default async function LeadDetailPage({
 							<p className="leading-7 text-slate-700">
 								{primaryCall?.ai_summary || 'No call summary available.'}
 							</p>
+						</CardContent>
+					</Card>
+
+					<Card className="border-amber-100 bg-amber-50/40">
+						<CardHeader>
+							<div className="flex items-start gap-3">
+								<div className="rounded-2xl bg-amber-100 p-3 text-amber-700">
+									<Phone className="h-5 w-5" />
+								</div>
+								<div>
+									<CardTitle>Recommended follow-up</CardTitle>
+									<p className="mt-2 text-sm text-slate-600">
+										Use this script when you call this lead back.
+									</p>
+								</div>
+							</div>
+						</CardHeader>
+
+						<CardContent className="space-y-4">
+							<div className="rounded-xl border border-amber-200 bg-white p-4">
+								<p className="mb-2 text-xs font-semibold uppercase tracking-wide text-amber-700">
+									Call opener
+								</p>
+								<p className="leading-7 text-slate-800">
+									{`"Hi, this is the team returning your call. I saw you reached
+  out earlier — are you still looking for help? I want to make
+  sure we don't leave you without an answer."`}
+								</p>
+							</div>
+
+							<div className="rounded-xl border border-amber-200 bg-white p-4">
+								<p className="mb-2 text-xs font-semibold uppercase tracking-wide text-amber-700">
+									Text message
+								</p>
+								<p className="leading-7 text-slate-800">
+									{`"Hi, you called us earlier and we missed you — so sorry about
+									that. We'd love to help. Can we set up a quick call?"`}
+								</p>
+							</div>
+
+							<div className="flex gap-3">
+								{lead.caller_phone ? (
+									<a
+										href={`tel:${lead.caller_phone}`}
+										className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-slate-950 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+									>
+										<Phone className="h-4 w-4" />
+										Call now
+									</a>
+								) : null}
+
+								{lead.caller_phone ? (
+									<a
+										href={`sms:${lead.caller_phone}`}
+										className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-950 hover:bg-slate-50"
+									>
+										Text now
+									</a>
+								) : null}
+							</div>
 						</CardContent>
 					</Card>
 				</div>

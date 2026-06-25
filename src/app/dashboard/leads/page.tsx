@@ -88,12 +88,16 @@ export default async function LeadsPage() {
 												</Link>
 											</td>
 
-											<td className="px-4 py-4">
+											<td className="px-4 py-4 max-w-xs">
 												<Link
 													href={`/dashboard/leads/${lead.id}`}
 													className="block text-slate-700"
 												>
-													{lead.service_needed || 'Not specified'}
+													<p className="truncate">
+														{lead.summary ||
+															lead.service_needed ||
+															'Not specified'}
+													</p>
 												</Link>
 											</td>
 

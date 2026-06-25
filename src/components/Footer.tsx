@@ -42,10 +42,10 @@ export function SiteFooter() {
 								How it works
 							</Link>
 							<Link
-								href="/#pricing"
+								href="/beta"
 								className="block text-slate-400 hover:text-white"
 							>
-								Pricing
+								Request beta access
 							</Link>
 							<Link
 								href="/login"
@@ -57,12 +57,14 @@ export function SiteFooter() {
 					</div>
 
 					<div>
-						<h3 className="text-sm font-semibold text-white">Use cases</h3>
+						<h3 className="text-sm font-semibold text-white">For businesses</h3>
 						<div className="mt-4 space-y-3 text-sm">
-							<span className="block text-slate-400">Movers</span>
-							<span className="block text-slate-400">Plumbers</span>
-							<span className="block text-slate-400">HVAC</span>
-							<span className="block text-slate-400">Roofers</span>
+							<span className="block text-slate-400">Home services</span>
+							<span className="block text-slate-400">Contractors</span>
+							<span className="block text-slate-400">Appointments</span>
+							<span className="block text-slate-400">
+								Professional services
+							</span>
 						</div>
 					</div>
 

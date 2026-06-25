@@ -29,10 +29,14 @@ function twimlResponse(message: string, recordingActionUrl?: string) {
 		? ` action="${escapeXml(recordingActionUrl)}" method="POST"`
 		: '';
 
+	const transcribeCallback = recordingActionUrl
+		? ` transcribeCallback="${escapeXml(recordingActionUrl)}"`
+		: '';
+
 	const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
   <Say voice="Polly.Joanna-Neural">${escapeXml(message)}</Say>
-  <Record maxLength="60" transcribe="false" playBeep="true"${recordAction} />
+  <Record maxLength="60" transcribe="true"${transcribeCallback} playBeep="true"${recordAction} />
   <Say voice="Polly.Joanna-Neural">Thank you. We will get back to you shortly.</Say>
   <Hangup />
 </Response>`;
@@ -116,8 +120,7 @@ export async function POST(request: Request) {
 			status: 'missed',
 			duration_seconds: null,
 			transcript: null,
-			ai_summary:
-				'Real inbound call captured. No AI transcript yet. Caller should be contacted quickly.',
+			ai_summary: 'Real inbound call captured. Transcription pending.',
 			recording_url: null,
 			started_at: new Date().toISOString(),
 			ended_at: null,
@@ -126,14 +129,7 @@ export async function POST(request: Request) {
 		.single();
 
 	if (callError || !call) {
-		console.error('Call insert failed:', {
-			error: callError,
-			businessId: business.id,
-			leadId: lead.id,
-			callSid,
-			fromPhone,
-			toPhone,
-		});
+		console.error('Call insert failed:', callError);
 
 		return twimlResponse(
 			'Thanks for calling. The team is unavailable right now, but your call has been received.',

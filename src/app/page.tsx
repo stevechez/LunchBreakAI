@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import {
 	ArrowRight,
-	CalendarCheck,
 	CheckCircle2,
 	Clock,
 	DollarSign,
@@ -11,7 +10,6 @@ import {
 	MessageSquareText,
 	PhoneCall,
 	ShieldCheck,
-	Wrench,
 	Zap,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -36,39 +34,30 @@ const howItWorks = [
 	{
 		icon: PhoneCall,
 		title: 'A customer calls while you are busy',
-		text: 'You might be on a job, with a client, driving, helping another customer, or finally taking lunch. The customer does not know that. They just know nobody picked up.',
+		text: 'You might be on a job, with a client, driving, or finally taking lunch. The customer just knows nobody picked up.',
 	},
 	{
 		icon: MessageSquareText,
 		title: 'The missed call becomes a lead',
-		text: 'Lunch Break AI captures the caller, service need, location, urgency, and estimated value so the opportunity does not disappear.',
+		text: 'Lunch Break AI captures the caller, service need, urgency, and estimated value so the opportunity does not disappear.',
 	},
 	{
 		icon: Zap,
 		title: 'You get a clear follow-up workflow',
-		text: 'Open the lead, see what they need, use the suggested call or text script, and mark the lead as contacted, booked, lost, or spam.',
+		text: 'Open the lead, see what they need, use the suggested call or text script, and mark the lead as contacted or booked.',
 	},
 	{
 		icon: DollarSign,
 		title: 'You track recovered revenue',
-		text: 'When a missed call becomes a real job, appointment, or client, mark it booked and track the value so you can see what was recovered.',
+		text: 'When a missed call becomes a real job, mark it booked and track the value so you can see what was recovered.',
 	},
-];
-
-const fitList = [
-	'You or your team are often busy serving customers',
-	'You miss calls during jobs, appointments, or after hours',
-	'You rely on phone calls to book new work',
-	'You do not have a full-time front desk',
-	'You forget to follow up with missed callers',
-	'One recovered customer would be worth more than the system itself',
 ];
 
 const faqs = [
 	{
 		question: 'Is this another complicated CRM?',
 		answer:
-			'No. Lunch Break AI is focused on one job: helping service businesses recover missed calls before those callers become someone else’s customer.',
+			"No. Lunch Break AI is focused on one job: helping service businesses recover missed calls before those callers become someone else's customer.",
 	},
 	{
 		question: 'Do I need to replace my phone number?',
@@ -90,6 +79,7 @@ const faqs = [
 export default function LunchBreakLandingPage() {
 	return (
 		<main className="min-h-screen bg-slate-950 text-white">
+			{/* Hero */}
 			<section className="relative overflow-hidden">
 				<div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.35),transparent_35%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.22),transparent_35%)]" />
 
@@ -107,9 +97,6 @@ export default function LunchBreakLandingPage() {
 						<div className="hidden items-center gap-8 text-sm text-slate-300 md:flex">
 							<a href="#how" className="hover:text-white">
 								How it works
-							</a>
-							<a href="#dashboard" className="hover:text-white">
-								Dashboard
 							</a>
 							<a href="#beta" className="hover:text-white">
 								Beta
@@ -153,15 +140,10 @@ export default function LunchBreakLandingPage() {
 							</h1>
 
 							<p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-								When someone calls about a repair, appointment, quote, service
-								request, or urgent problem, they usually call the next business
-								if nobody answers.
-							</p>
-
-							<p className="mt-4 max-w-2xl text-lg leading-8 text-slate-300">
-								Lunch Break AI helps service businesses capture missed calls,
-								turn them into lead records, and follow up before the customer
-								is gone.
+								When someone calls about a repair, appointment, quote, or urgent
+								problem, they usually call the next business if nobody answers.
+								Lunch Break AI helps you capture that lead and follow up before
+								they are gone.
 							</p>
 
 							<div className="mt-8 flex flex-col gap-4 sm:flex-row">
@@ -184,24 +166,6 @@ export default function LunchBreakLandingPage() {
 								>
 									<a href="#how">See how it works</a>
 								</Button>
-							</div>
-
-							<div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-300">
-								{[
-									'Home services',
-									'Local businesses',
-									'Appointment-based teams',
-									'Missed calls',
-									'Lead follow-up',
-									'Revenue tracking',
-								].map(item => (
-									<span
-										key={item}
-										className="rounded-full border border-white/10 bg-white/5 px-3 py-1"
-									>
-										{item}
-									</span>
-								))}
 							</div>
 						</motion.div>
 
@@ -245,9 +209,8 @@ export default function LunchBreakLandingPage() {
 												Recommended follow-up
 											</p>
 											<p className="text-sm leading-7 text-slate-300">
-												“Hi Maria, this is the team returning your call. Lunch
-												Break AI captured your message about a same-day service
-												request in Aptos. Are you still looking for help today?”
+												&quot;Hi Maria, this is the team returning your call.
+												Are you still looking for help today?&quot;
 											</p>
 										</div>
 
@@ -283,6 +246,7 @@ export default function LunchBreakLandingPage() {
 				</div>
 			</section>
 
+			{/* Stats bar */}
 			<section className="border-y border-white/10 bg-slate-900/70 px-6 py-10">
 				<div className="mx-auto grid max-w-7xl gap-6 text-center sm:grid-cols-3">
 					<div>
@@ -300,12 +264,13 @@ export default function LunchBreakLandingPage() {
 					<div>
 						<p className="text-4xl font-bold">$147</p>
 						<p className="mt-2 text-slate-300">
-							beta setup for early business testers
+							is all it takes to recover one missed customer
 						</p>
 					</div>
 				</div>
 			</section>
 
+			{/* How it works */}
 			<section id="how" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
 				<div className="max-w-3xl">
 					<p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-300">
@@ -315,9 +280,8 @@ export default function LunchBreakLandingPage() {
 						A simple missed-call recovery workflow.
 					</h2>
 					<p className="mt-4 text-lg leading-8 text-slate-300">
-						Lunch Break AI is not trying to replace your entire business. It
-						does one focused job: help you recover missed calls before they
-						become someone else’s customer.
+						One focused job: help you recover missed calls before they become
+						someone else&apos;s customer.
 					</p>
 				</div>
 
@@ -341,33 +305,7 @@ export default function LunchBreakLandingPage() {
 				</div>
 			</section>
 
-			<section className="bg-white px-6 py-20 text-slate-950 lg:px-8">
-				<div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
-					<div>
-						<p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">
-							The problem
-						</p>
-						<h2 className="mt-3 text-4xl font-bold tracking-tight">
-							You might not need more leads. You might need to stop wasting the
-							ones already calling.
-						</h2>
-					</div>
-
-					<div className="space-y-5 text-lg leading-8 text-slate-700">
-						<p>
-							Customers do not patiently call back. When they need a quote,
-							appointment, repair, consultation, or urgent help, they often call
-							the next business.
-						</p>
-						<p>
-							Lunch Break AI gives you a simple way to catch the opportunity,
-							see what the customer needs, and follow up fast enough to recover
-							the job, appointment, or sale.
-						</p>
-					</div>
-				</div>
-			</section>
-
+			{/* Dashboard features */}
 			<section id="dashboard" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
 				<div className="grid gap-10 lg:grid-cols-2 lg:items-center">
 					<div>
@@ -378,8 +316,8 @@ export default function LunchBreakLandingPage() {
 							A dashboard built around action, not clutter.
 						</h2>
 						<p className="mt-4 text-lg leading-8 text-slate-300">
-							Every lead should answer three questions: who called, what do they
-							need, and what should you do next?
+							Every lead answers three questions: who called, what do they need,
+							and what should you do next?
 						</p>
 					</div>
 
@@ -400,31 +338,7 @@ export default function LunchBreakLandingPage() {
 				</div>
 			</section>
 
-			<section className="bg-slate-900 px-6 py-20 lg:px-8">
-				<div className="mx-auto max-w-7xl">
-					<div className="max-w-3xl">
-						<p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-300">
-							Who it is for
-						</p>
-						<h2 className="mt-3 text-4xl font-bold tracking-tight">
-							For service businesses that lose money when calls go unanswered.
-						</h2>
-					</div>
-
-					<div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-						{fitList.map(item => (
-							<div
-								key={item}
-								className="flex gap-3 rounded-3xl border border-white/10 bg-white/5 p-5"
-							>
-								<CheckCircle2 className="mt-0.5 h-5 w-5 flex-none text-blue-300" />
-								<p className="leading-7 text-slate-300">{item}</p>
-							</div>
-						))}
-					</div>
-				</div>
-			</section>
-
+			{/* Beta offer */}
 			<section id="beta" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
 				<div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-stretch">
 					<Card className="rounded-[2rem] border-blue-400/30 bg-blue-500/15">
@@ -434,14 +348,13 @@ export default function LunchBreakLandingPage() {
 							</p>
 
 							<h2 className="mt-3 text-4xl font-bold tracking-tight text-white">
-								I am looking for a small number of local service businesses to
-								test Lunch Break AI.
+								Looking for a small number of local service businesses to test
+								Lunch Break AI.
 							</h2>
 
 							<p className="mt-5 text-lg leading-8 text-slate-300">
-								The beta version is simple: you get a missed-call recovery
-								dashboard, realistic lead tracking, and a follow-up workflow
-								designed around your business.
+								You get a missed-call recovery dashboard, lead tracking, and a
+								follow-up workflow designed around your business.
 							</p>
 
 							<div className="mt-8 grid gap-4 sm:grid-cols-3">
@@ -463,7 +376,7 @@ export default function LunchBreakLandingPage() {
 									<p className="text-sm text-slate-400">Goal</p>
 									<p className="mt-2 text-3xl font-bold text-white">1 win</p>
 									<p className="mt-2 text-sm text-slate-300">
-										one recovered customer can pay for it
+										one recovered customer pays for it
 									</p>
 								</div>
 							</div>
@@ -478,7 +391,7 @@ export default function LunchBreakLandingPage() {
 									No bloated CRM. No complicated software.
 								</h3>
 								<p className="mt-4 leading-7 text-slate-300">
-									Just a simple system to help recover missed calls, follow up
+									Just a simple system to recover missed calls, follow up
 									faster, and see whether those calls became revenue.
 								</p>
 							</div>
@@ -501,7 +414,7 @@ export default function LunchBreakLandingPage() {
 									variant="outline"
 									className="w-full rounded-2xl border-white/20 bg-white/5 text-base text-white hover:bg-white/10"
 								>
-									<Link href="/login">Log in</Link>
+									<Link href="/signup">Try the free demo</Link>
 								</Button>
 							</div>
 						</CardContent>
@@ -509,49 +422,7 @@ export default function LunchBreakLandingPage() {
 				</div>
 			</section>
 
-			<section className="mx-auto max-w-7xl px-6 pb-20 lg:px-8">
-				<div className="grid gap-6 md:grid-cols-3">
-					<Card className="rounded-3xl border-white/10 bg-white/5">
-						<CardContent className="p-7">
-							<Wrench className="mb-5 h-8 w-8 text-blue-300" />
-							<h3 className="text-xl font-semibold text-white">
-								Built for real business days
-							</h3>
-							<p className="mt-3 leading-7 text-slate-300">
-								Designed around the reality that missed calls happen because you
-								are already serving customers, not ignoring them.
-							</p>
-						</CardContent>
-					</Card>
-
-					<Card className="rounded-3xl border-white/10 bg-white/5">
-						<CardContent className="p-7">
-							<CalendarCheck className="mb-5 h-8 w-8 text-blue-300" />
-							<h3 className="text-xl font-semibold text-white">
-								Follow-up focused
-							</h3>
-							<p className="mt-3 leading-7 text-slate-300">
-								The app gives you suggested call and text language so the next
-								action is obvious.
-							</p>
-						</CardContent>
-					</Card>
-
-					<Card className="rounded-3xl border-white/10 bg-white/5">
-						<CardContent className="p-7">
-							<DollarSign className="mb-5 h-8 w-8 text-blue-300" />
-							<h3 className="text-xl font-semibold text-white">
-								Revenue aware
-							</h3>
-							<p className="mt-3 leading-7 text-slate-300">
-								Track estimated and booked value so missed-call recovery is tied
-								to real business outcomes.
-							</p>
-						</CardContent>
-					</Card>
-				</div>
-			</section>
-
+			{/* FAQ */}
 			<section id="faq" className="bg-slate-900 px-6 py-20 lg:px-8">
 				<div className="mx-auto max-w-4xl">
 					<h2 className="text-4xl font-bold tracking-tight">FAQ</h2>
@@ -572,12 +443,12 @@ export default function LunchBreakLandingPage() {
 				</div>
 			</section>
 
+			{/* Final CTA */}
 			<section className="px-6 py-20 lg:px-8">
 				<div className="mx-auto max-w-5xl rounded-[2rem] bg-blue-500 p-8 text-center text-white shadow-2xl shadow-blue-950/40 sm:p-12">
 					<Mail className="mx-auto mb-5 h-10 w-10" />
 					<h2 className="text-4xl font-bold tracking-tight">
-						Want to see if Lunch Break AI could help recover customers you are
-						currently missing?
+						Want to see if Lunch Break AI could help your business?
 					</h2>
 					<p className="mx-auto mt-4 max-w-2xl text-lg text-blue-50">
 						Start the free demo and simulate a missed call. See the lead,
@@ -590,8 +461,8 @@ export default function LunchBreakLandingPage() {
 							size="lg"
 							className="rounded-2xl bg-white px-7 text-base text-slate-950 hover:bg-blue-50"
 						>
-							<Link href="/beta">
-								Request beta access
+							<Link href="/signup">
+								Start free demo
 								<ArrowRight className="ml-2 h-5 w-5" />
 							</Link>
 						</Button>
@@ -602,7 +473,7 @@ export default function LunchBreakLandingPage() {
 							variant="outline"
 							className="rounded-2xl border-white/40 bg-white/10 px-7 text-base text-white hover:bg-white/20"
 						>
-							<Link href="/login">Log in</Link>
+							<Link href="/beta">Request beta access</Link>
 						</Button>
 					</div>
 				</div>
