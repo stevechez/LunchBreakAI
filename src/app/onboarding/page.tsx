@@ -83,7 +83,6 @@ export default async function OnboardingPage({
 
 						<form action={createBusinessAction} className="space-y-6">
 							<input type="hidden" name="vertical" value={vertical} />
-							<input type="hidden" name="industry" value={vertical} />
 
 							<div className="space-y-2">
 								<Label htmlFor="business_name">Business name</Label>
@@ -91,34 +90,33 @@ export default async function OnboardingPage({
 									id="business_name"
 									name="business_name"
 									required
-									placeholder="Example Garage Door Co."
+									placeholder="Example Service Co."
 									className="bg-white text-slate-950"
 								/>
 							</div>
 
-							<div className="grid gap-6 md:grid-cols-2">
-								<div className="space-y-2">
-									<Label htmlFor="vertical_display">Industry</Label>
-									<Input
-										id="vertical_display"
-										value={verticalLabel}
-										readOnly
-										className="bg-white/90 text-slate-950"
-									/>
-									<p className="text-xs text-slate-400">
-										This came from the landing page you signed up from.
-									</p>
-								</div>
-
-								<div className="space-y-2">
-									<Label htmlFor="website_url">Website</Label>
-									<Input
-										id="website_url"
-										name="website_url"
-										placeholder="https://example.com"
-										className="bg-white text-slate-950"
-									/>
-								</div>
+							<div className="space-y-2">
+								<Label htmlFor="vertical">Industry</Label>
+								<select
+									id="vertical"
+									name="vertical"
+									defaultValue={vertical}
+									className="h-10 w-full rounded-xl border border-white/10 bg-white px-3 text-sm text-slate-950"
+								>
+									<option value="general">General service business</option>
+									<option value="hvac">HVAC</option>
+									<option value="plumbing">Plumbing</option>
+									<option value="roofing">Roofing</option>
+									<option value="electrical">Electrical</option>
+									<option value="garage_door">Garage door</option>
+									<option value="landscaping">Landscaping</option>
+									<option value="cleaning">Cleaning</option>
+									<option value="moving">Moving</option>
+									<option value="contractor">General contractor</option>
+									<option value="dental">Dental</option>
+									<option value="legal">Legal</option>
+									<option value="medical">Medical</option>
+								</select>
 							</div>
 
 							<div className="grid gap-6 md:grid-cols-2">
@@ -178,7 +176,9 @@ export default async function OnboardingPage({
 								</p>
 							</div>
 
-							<Button className="rounded-xl">Create dashboard</Button>
+							<Button className="w-full rounded-xl bg-blue-500 py-6 text-base font-semibold hover:bg-blue-400">
+								Create my dashboard →
+							</Button>
 						</form>
 					</CardContent>
 				</Card>
