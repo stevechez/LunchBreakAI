@@ -2,140 +2,136 @@
 
 import { motion } from 'framer-motion';
 import {
-	PhoneCall,
-	Clock,
-	MessageSquareText,
-	DollarSign,
-	CheckCircle2,
 	ArrowRight,
-	ShieldCheck,
-	Zap,
+	CalendarCheck,
+	CheckCircle2,
+	Clock,
+	DollarSign,
 	Mail,
+	MessageSquareText,
+	PhoneCall,
+	ShieldCheck,
 	Wrench,
+	Zap,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SiteFooter } from '@/components/Footer';
 
-const pricing = [
-	{
-		name: 'Starter',
-		price: '$99',
-		description:
-			'For small local businesses that just need missed calls captured.',
-		features: [
-			'AI answers missed calls',
-			'Captures name, phone, and job details',
-			'Instant SMS/email lead alert',
-			'Customer confirmation text',
-			'Basic call transcript',
-		],
-		cta: 'Start saving calls',
-		popular: false,
-	},
-	{
-		name: 'Pro',
-		price: '$199',
-		description:
-			'For service businesses that want better lead qualification and faster follow-up.',
-		features: [
-			'Everything in Starter',
-			'Industry-specific intake scripts',
-			'Urgency and job value tagging',
-			'Daily lead summary',
-			'After-hours call handling',
-			'Basic dashboard export',
-		],
-		cta: 'Get Pro',
-		popular: true,
-	},
-	{
-		name: 'Growth',
-		price: '$399',
-		description:
-			'For teams that want a serious front desk without hiring a receptionist.',
-		features: [
-			'Everything in Pro',
-			'Appointment request collection',
-			'Multiple locations or crews',
-			'CRM/Zapier handoff',
-			'Custom voice and greeting',
-			'Priority setup support',
-		],
-		cta: 'Talk to us',
-		popular: false,
-	},
+const dashboardFeatures = [
+	'New missed-call leads',
+	'Caller name and phone number',
+	'Service requested',
+	'Job or appointment location',
+	'Urgency level',
+	'Call summary',
+	'Suggested follow-up script',
+	'Estimated opportunity value',
+	'Booked revenue tracking',
+	'Lead status: new, contacted, booked, lost, or spam',
 ];
 
-const verticals = [
-	'Movers',
-	'Plumbers',
-	'HVAC',
-	'Roofers',
-	'Electricians',
-	'Dentists',
-	'Med spas',
-	'Law firms',
-];
-
-const intakeSteps = [
+const howItWorks = [
 	{
 		icon: PhoneCall,
-		title: 'A customer calls',
-		text: 'Your team is busy, on another job, at lunch, or closed for the day.',
+		title: 'A customer calls while you are busy',
+		text: 'You might be on a job, with a client, driving, helping another customer, or finally taking lunch. The customer does not know that. They just know nobody picked up.',
 	},
 	{
 		icon: MessageSquareText,
-		title: 'AI answers naturally',
-		text: 'It greets the caller, captures the right details, and keeps the lead engaged.',
+		title: 'The missed call becomes a lead',
+		text: 'Lunch Break AI captures the caller, service need, location, urgency, and estimated value so the opportunity does not disappear.',
 	},
 	{
 		icon: Zap,
-		title: 'You get the lead instantly',
-		text: 'A clean summary lands by SMS or email so you can follow up fast.',
+		title: 'You get a clear follow-up workflow',
+		text: 'Open the lead, see what they need, use the suggested call or text script, and mark the lead as contacted, booked, lost, or spam.',
+	},
+	{
+		icon: DollarSign,
+		title: 'You track recovered revenue',
+		text: 'When a missed call becomes a real job, appointment, or client, mark it booked and track the value so you can see what was recovered.',
 	},
 ];
 
-export default function LunchBreakReceptionistLandingPage() {
+const fitList = [
+	'You or your team are often busy serving customers',
+	'You miss calls during jobs, appointments, or after hours',
+	'You rely on phone calls to book new work',
+	'You do not have a full-time front desk',
+	'You forget to follow up with missed callers',
+	'One recovered customer would be worth more than the system itself',
+];
+
+const faqs = [
+	{
+		question: 'Is this another complicated CRM?',
+		answer:
+			'No. Lunch Break AI is focused on one job: helping service businesses recover missed calls before those callers become someone else’s customer.',
+	},
+	{
+		question: 'Do I need to replace my phone number?',
+		answer:
+			'No. The goal is to work with your existing business phone flow. The beta starts with a simple missed-call recovery dashboard and follow-up workflow.',
+	},
+	{
+		question: 'What happens after a missed call?',
+		answer:
+			'The missed call becomes a lead record with caller details, service needed, urgency, suggested follow-up language, and revenue tracking.',
+	},
+	{
+		question: 'Who is this built for?',
+		answer:
+			'Lunch Break AI is built for local service businesses that lose money when calls go unanswered, including contractors, home services, appointment-based businesses, and professional services.',
+	},
+];
+
+export default function LunchBreakLandingPage() {
 	return (
 		<main className="min-h-screen bg-slate-950 text-white">
 			<section className="relative overflow-hidden">
 				<div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.35),transparent_35%),radial-gradient(circle_at_top_right,rgba(14,165,233,0.22),transparent_35%)]" />
+
 				<div className="relative mx-auto max-w-7xl px-6 py-8 lg:px-8">
 					<nav className="flex items-center justify-between">
-						<div className="flex items-center gap-3">
+						<Link href="/" className="flex items-center gap-3">
 							<div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-500 shadow-lg shadow-blue-500/30">
 								<PhoneCall className="h-5 w-5" />
 							</div>
 							<span className="text-lg font-semibold tracking-tight">
 								Lunch Break AI
 							</span>
-						</div>
+						</Link>
+
 						<div className="hidden items-center gap-8 text-sm text-slate-300 md:flex">
 							<a href="#how" className="hover:text-white">
 								How it works
 							</a>
-							<a href="#pricing" className="hover:text-white">
-								Pricing
+							<a href="#dashboard" className="hover:text-white">
+								Dashboard
+							</a>
+							<a href="#beta" className="hover:text-white">
+								Beta
 							</a>
 							<a href="#faq" className="hover:text-white">
 								FAQ
 							</a>
 						</div>
-						<div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
+
+						<div className="flex items-center gap-3">
 							<Link
-								href="/signup"
-								className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-slate-100"
+								href="/login"
+								className="hidden rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10 sm:inline-flex"
 							>
-								Start free demo
+								Log in
 							</Link>
 
 							<Link
-								href="/login"
-								className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+								href="/signup"
+								className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-slate-100"
 							>
-								Log in
+								Start free demo
 							</Link>
 						</div>
 					</nav>
@@ -148,34 +144,57 @@ export default function LunchBreakReceptionistLandingPage() {
 						>
 							<div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-400/10 px-4 py-2 text-sm text-blue-100">
 								<Clock className="h-4 w-4" />
-								Never lose a job because nobody picked up.
+								Built for busy businesses that cannot answer every call.
 							</div>
+
 							<h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-								Your AI receptionist for every missed call.
+								Stop losing ready-to-book customers just because you missed the
+								call.
 							</h1>
+
 							<p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-								Lunch Break AI answers when your business cannot, captures the
-								caller’s details, and sends you a clean lead summary instantly.
-								One saved job can pay for the entire service.
+								When someone calls about a repair, appointment, quote, service
+								request, or urgent problem, they usually call the next business
+								if nobody answers.
 							</p>
+
+							<p className="mt-4 max-w-2xl text-lg leading-8 text-slate-300">
+								Lunch Break AI helps service businesses capture missed calls,
+								turn them into lead records, and follow up before the customer
+								is gone.
+							</p>
+
 							<div className="mt-8 flex flex-col gap-4 sm:flex-row">
 								<Button
+									asChild
 									size="lg"
 									className="rounded-2xl bg-blue-500 px-7 text-base hover:bg-blue-400"
 								>
-									Start saving missed calls{' '}
-									<ArrowRight className="ml-2 h-5 w-5" />
+									<Link href="/signup">
+										Start free demo
+										<ArrowRight className="ml-2 h-5 w-5" />
+									</Link>
 								</Button>
+
 								<Button
+									asChild
 									size="lg"
 									variant="outline"
 									className="rounded-2xl border-slate-600 bg-white/5 px-7 text-base text-white hover:bg-white/10"
 								>
-									See demo intake
+									<a href="#how">See how it works</a>
 								</Button>
 							</div>
+
 							<div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-300">
-								{verticals.map(item => (
+								{[
+									'Home services',
+									'Local businesses',
+									'Appointment-based teams',
+									'Missed calls',
+									'Lead follow-up',
+									'Revenue tracking',
+								].map(item => (
 									<span
 										key={item}
 										className="rounded-full border border-white/10 bg-white/5 px-3 py-1"
@@ -194,15 +213,16 @@ export default function LunchBreakReceptionistLandingPage() {
 						>
 							<Card className="rounded-[2rem] border-white/10 bg-white/10 shadow-2xl shadow-blue-950/50 backdrop-blur">
 								<CardContent className="p-6 sm:p-8">
-									<div className="mb-6 flex items-center justify-between">
+									<div className="mb-6 flex items-center justify-between gap-4">
 										<div>
 											<p className="text-sm text-slate-300">
-												Incoming missed-call lead
+												Recovered missed-call lead
 											</p>
 											<h2 className="text-2xl font-semibold text-white">
-												Moving quote request
+												Same-day service request
 											</h2>
 										</div>
+
 										<div className="rounded-2xl bg-emerald-400/20 px-3 py-2 text-sm text-emerald-200">
 											Captured
 										</div>
@@ -210,30 +230,50 @@ export default function LunchBreakReceptionistLandingPage() {
 
 									<div className="space-y-4 rounded-3xl bg-slate-950/70 p-5">
 										<div className="rounded-2xl bg-blue-500/15 p-4">
-											<p className="text-sm text-blue-100">AI Receptionist</p>
-											<p className="mt-1 text-slate-100">
-												“Thanks for calling. I can help get your move request
-												started. What date are you looking to move?”
+											<p className="text-sm text-blue-100">
+												Missed-call summary
+											</p>
+											<p className="mt-1 leading-7 text-slate-100">
+												Customer in Aptos called about a same-day service
+												request. They want pricing, availability, and a call
+												back as soon as possible.
 											</p>
 										</div>
-										<div className="ml-auto rounded-2xl bg-white/10 p-4">
-											<p className="text-sm text-slate-300">Caller</p>
-											<p className="mt-1 text-slate-100">
-												“Next Friday. Two-bedroom apartment from Mountain View
-												to San Jose.”
-											</p>
-										</div>
+
 										<div className="rounded-2xl border border-white/10 bg-white/5 p-4">
 											<p className="mb-3 text-sm font-medium text-slate-200">
-												Lead summary sent to owner
+												Recommended follow-up
 											</p>
-											<ul className="space-y-2 text-sm text-slate-300">
-												<li>• Caller: Steve</li>
-												<li>• Job: 2-bedroom move</li>
-												<li>• Route: Mountain View → San Jose</li>
-												<li>• Timing: Next Friday</li>
-												<li>• Intent: High — wants quote today</li>
-											</ul>
+											<p className="text-sm leading-7 text-slate-300">
+												“Hi Maria, this is the team returning your call. Lunch
+												Break AI captured your message about a same-day service
+												request in Aptos. Are you still looking for help today?”
+											</p>
+										</div>
+
+										<div className="grid gap-3 sm:grid-cols-3">
+											<div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+												<p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+													Urgency
+												</p>
+												<p className="mt-2 font-semibold text-white">High</p>
+											</div>
+
+											<div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+												<p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+													Value
+												</p>
+												<p className="mt-2 font-semibold text-white">$650</p>
+											</div>
+
+											<div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+												<p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+													Status
+												</p>
+												<p className="mt-2 font-semibold text-white">
+													New lead
+												</p>
+											</div>
 										</div>
 									</div>
 								</CardContent>
@@ -246,21 +286,21 @@ export default function LunchBreakReceptionistLandingPage() {
 			<section className="border-y border-white/10 bg-slate-900/70 px-6 py-10">
 				<div className="mx-auto grid max-w-7xl gap-6 text-center sm:grid-cols-3">
 					<div>
-						<p className="text-4xl font-bold">1 call</p>
+						<p className="text-4xl font-bold">1 missed call</p>
+						<p className="mt-2 text-slate-300">can become a lost customer</p>
+					</div>
+
+					<div>
+						<p className="text-4xl font-bold">5 minutes</p>
 						<p className="mt-2 text-slate-300">
-							can be worth hundreds or thousands
+							can be the difference between booked and gone
 						</p>
 					</div>
+
 					<div>
-						<p className="text-4xl font-bold">24/7</p>
+						<p className="text-4xl font-bold">$147</p>
 						<p className="mt-2 text-slate-300">
-							coverage without hiring a front desk
-						</p>
-					</div>
-					<div>
-						<p className="text-4xl font-bold">60 sec</p>
-						<p className="mt-2 text-slate-300">
-							from missed call to lead summary
+							beta setup for early business testers
 						</p>
 					</div>
 				</div>
@@ -272,16 +312,17 @@ export default function LunchBreakReceptionistLandingPage() {
 						How it works
 					</p>
 					<h2 className="mt-3 text-4xl font-bold tracking-tight">
-						A front desk that never lets callers hit a dead end.
+						A simple missed-call recovery workflow.
 					</h2>
-					<p className="mt-4 text-lg text-slate-300">
-						Forward missed calls, after-hours calls, or all calls during busy
-						windows. Lunch Break AI handles the first touch and gets the lead to
-						the right person.
+					<p className="mt-4 text-lg leading-8 text-slate-300">
+						Lunch Break AI is not trying to replace your entire business. It
+						does one focused job: help you recover missed calls before they
+						become someone else’s customer.
 					</p>
 				</div>
-				<div className="mt-12 grid gap-6 md:grid-cols-3">
-					{intakeSteps.map(step => (
+
+				<div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+					{howItWorks.map(step => (
 						<Card
 							key={step.title}
 							className="rounded-3xl border-white/10 bg-white/5"
@@ -304,80 +345,167 @@ export default function LunchBreakReceptionistLandingPage() {
 				<div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
 					<div>
 						<p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">
-							The pitch
+							The problem
 						</p>
 						<h2 className="mt-3 text-4xl font-bold tracking-tight">
-							You do not need more leads. You need to stop wasting the ones
-							already calling.
+							You might not need more leads. You might need to stop wasting the
+							ones already calling.
 						</h2>
 					</div>
+
 					<div className="space-y-5 text-lg leading-8 text-slate-700">
 						<p>
-							Customers do not patiently call back. They call the next business.
-							Lunch Break AI catches that moment while the buyer is still hot.
+							Customers do not patiently call back. When they need a quote,
+							appointment, repair, consultation, or urgent help, they often call
+							the next business.
 						</p>
 						<p>
-							Instead of a full voicemail box, they get a helpful receptionist.
-							Instead of a lost opportunity, you get a qualified lead in your
-							pocket.
+							Lunch Break AI gives you a simple way to catch the opportunity,
+							see what the customer needs, and follow up fast enough to recover
+							the job, appointment, or sale.
 						</p>
 					</div>
 				</div>
 			</section>
 
-			<section id="pricing" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-				<div className="text-center">
-					<p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-300">
-						Pricing
-					</p>
-					<h2 className="mt-3 text-4xl font-bold tracking-tight">
-						One saved job can pay for the month.
-					</h2>
-					<p className="mx-auto mt-4 max-w-2xl text-lg text-slate-300">
-						Connect Lemon Squeezy checkout links to these plans and launch with
-						simple subscription billing.
-					</p>
+			<section id="dashboard" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+				<div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+					<div>
+						<p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-300">
+							What you see
+						</p>
+						<h2 className="mt-3 text-4xl font-bold tracking-tight">
+							A dashboard built around action, not clutter.
+						</h2>
+						<p className="mt-4 text-lg leading-8 text-slate-300">
+							Every lead should answer three questions: who called, what do they
+							need, and what should you do next?
+						</p>
+					</div>
+
+					<Card className="rounded-[2rem] border-white/10 bg-white/5">
+						<CardContent className="p-7">
+							<div className="grid gap-4 sm:grid-cols-2">
+								{dashboardFeatures.map(feature => (
+									<div key={feature} className="flex gap-3">
+										<CheckCircle2 className="mt-0.5 h-5 w-5 flex-none text-emerald-300" />
+										<span className="text-sm leading-6 text-slate-300">
+											{feature}
+										</span>
+									</div>
+								))}
+							</div>
+						</CardContent>
+					</Card>
 				</div>
-				<div className="mt-12 grid gap-6 lg:grid-cols-3">
-					{pricing.map(plan => (
-						<Card
-							key={plan.name}
-							className={`relative rounded-[2rem] ${plan.popular ? 'border-blue-400 bg-blue-500/15' : 'border-white/10 bg-white/5'}`}
-						>
-							{plan.popular && (
-								<div className="absolute right-6 top-6 rounded-full bg-blue-400 px-3 py-1 text-xs font-semibold text-slate-950">
-									Most popular
+			</section>
+
+			<section className="bg-slate-900 px-6 py-20 lg:px-8">
+				<div className="mx-auto max-w-7xl">
+					<div className="max-w-3xl">
+						<p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-300">
+							Who it is for
+						</p>
+						<h2 className="mt-3 text-4xl font-bold tracking-tight">
+							For service businesses that lose money when calls go unanswered.
+						</h2>
+					</div>
+
+					<div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+						{fitList.map(item => (
+							<div
+								key={item}
+								className="flex gap-3 rounded-3xl border border-white/10 bg-white/5 p-5"
+							>
+								<CheckCircle2 className="mt-0.5 h-5 w-5 flex-none text-blue-300" />
+								<p className="leading-7 text-slate-300">{item}</p>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+
+			<section id="beta" className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+				<div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-stretch">
+					<Card className="rounded-[2rem] border-blue-400/30 bg-blue-500/15">
+						<CardContent className="p-8 sm:p-10">
+							<p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-200">
+								Beta offer
+							</p>
+
+							<h2 className="mt-3 text-4xl font-bold tracking-tight text-white">
+								I am looking for a small number of local service businesses to
+								test Lunch Break AI.
+							</h2>
+
+							<p className="mt-5 text-lg leading-8 text-slate-300">
+								The beta version is simple: you get a missed-call recovery
+								dashboard, realistic lead tracking, and a follow-up workflow
+								designed around your business.
+							</p>
+
+							<div className="mt-8 grid gap-4 sm:grid-cols-3">
+								<div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+									<p className="text-sm text-slate-400">Setup</p>
+									<p className="mt-2 text-3xl font-bold text-white">$147</p>
+									<p className="mt-2 text-sm text-slate-300">one-time beta</p>
 								</div>
-							)}
-							<CardContent className="p-7">
+
+								<div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+									<p className="text-sm text-slate-400">Contract</p>
+									<p className="mt-2 text-3xl font-bold text-white">No</p>
+									<p className="mt-2 text-sm text-slate-300">
+										long-term commitment
+									</p>
+								</div>
+
+								<div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+									<p className="text-sm text-slate-400">Goal</p>
+									<p className="mt-2 text-3xl font-bold text-white">1 win</p>
+									<p className="mt-2 text-sm text-slate-300">
+										one recovered customer can pay for it
+									</p>
+								</div>
+							</div>
+						</CardContent>
+					</Card>
+
+					<Card className="rounded-[2rem] border-white/10 bg-white/5">
+						<CardContent className="flex h-full flex-col justify-between p-8">
+							<div>
+								<ShieldCheck className="mb-5 h-10 w-10 text-blue-300" />
 								<h3 className="text-2xl font-semibold text-white">
-									{plan.name}
+									No bloated CRM. No complicated software.
 								</h3>
-								<div className="mt-4 flex items-end gap-1">
-									<span className="text-5xl font-bold text-white">
-										{plan.price}
-									</span>
-									<span className="pb-2 text-slate-300">/mo</span>
-								</div>
-								<p className="mt-4 min-h-[72px] text-slate-300">
-									{plan.description}
+								<p className="mt-4 leading-7 text-slate-300">
+									Just a simple system to help recover missed calls, follow up
+									faster, and see whether those calls became revenue.
 								</p>
+							</div>
+
+							<div className="mt-8 space-y-3">
 								<Button
-									className={`mt-6 w-full rounded-2xl ${plan.popular ? 'bg-blue-400 text-slate-950 hover:bg-blue-300' : 'bg-white text-slate-950 hover:bg-slate-200'}`}
+									asChild
+									size="lg"
+									className="w-full rounded-2xl bg-white text-base text-slate-950 hover:bg-slate-100"
 								>
-									{plan.cta}
+									<Link href="/beta">
+										Request beta access
+										<ArrowRight className="ml-2 h-5 w-5" />
+									</Link>
 								</Button>
-								<ul className="mt-6 space-y-3 text-sm text-slate-300">
-									{plan.features.map(feature => (
-										<li key={feature} className="flex gap-3">
-											<CheckCircle2 className="mt-0.5 h-5 w-5 flex-none text-emerald-300" />
-											<span>{feature}</span>
-										</li>
-									))}
-								</ul>
-							</CardContent>
-						</Card>
-					))}
+
+								<Button
+									asChild
+									size="lg"
+									variant="outline"
+									className="w-full rounded-2xl border-white/20 bg-white/5 text-base text-white hover:bg-white/10"
+								>
+									<Link href="/login">Log in</Link>
+								</Button>
+							</div>
+						</CardContent>
+					</Card>
 				</div>
 			</section>
 
@@ -385,35 +513,39 @@ export default function LunchBreakReceptionistLandingPage() {
 				<div className="grid gap-6 md:grid-cols-3">
 					<Card className="rounded-3xl border-white/10 bg-white/5">
 						<CardContent className="p-7">
-							<DollarSign className="mb-5 h-8 w-8 text-blue-300" />
-							<h3 className="text-xl font-semibold text-white">ROI-first</h3>
-							<p className="mt-3 text-slate-300">
-								Show businesses exactly how many calls were saved and how much
-								potential revenue was recovered.
-							</p>
-						</CardContent>
-					</Card>
-					<Card className="rounded-3xl border-white/10 bg-white/5">
-						<CardContent className="p-7">
 							<Wrench className="mb-5 h-8 w-8 text-blue-300" />
 							<h3 className="text-xl font-semibold text-white">
-								Vertical scripts
+								Built for real business days
 							</h3>
-							<p className="mt-3 text-slate-300">
-								Movers, plumbers, roofers, HVAC, and more get the exact
-								questions their teams already ask.
+							<p className="mt-3 leading-7 text-slate-300">
+								Designed around the reality that missed calls happen because you
+								are already serving customers, not ignoring them.
 							</p>
 						</CardContent>
 					</Card>
+
 					<Card className="rounded-3xl border-white/10 bg-white/5">
 						<CardContent className="p-7">
-							<ShieldCheck className="mb-5 h-8 w-8 text-blue-300" />
+							<CalendarCheck className="mb-5 h-8 w-8 text-blue-300" />
 							<h3 className="text-xl font-semibold text-white">
-								No app required
+								Follow-up focused
 							</h3>
-							<p className="mt-3 text-slate-300">
-								Start with call forwarding, SMS alerts, and email summaries. Add
-								dashboards only when needed.
+							<p className="mt-3 leading-7 text-slate-300">
+								The app gives you suggested call and text language so the next
+								action is obvious.
+							</p>
+						</CardContent>
+					</Card>
+
+					<Card className="rounded-3xl border-white/10 bg-white/5">
+						<CardContent className="p-7">
+							<DollarSign className="mb-5 h-8 w-8 text-blue-300" />
+							<h3 className="text-xl font-semibold text-white">
+								Revenue aware
+							</h3>
+							<p className="mt-3 leading-7 text-slate-300">
+								Track estimated and booked value so missed-call recovery is tied
+								to real business outcomes.
 							</p>
 						</CardContent>
 					</Card>
@@ -423,31 +555,17 @@ export default function LunchBreakReceptionistLandingPage() {
 			<section id="faq" className="bg-slate-900 px-6 py-20 lg:px-8">
 				<div className="mx-auto max-w-4xl">
 					<h2 className="text-4xl font-bold tracking-tight">FAQ</h2>
+
 					<div className="mt-10 space-y-5">
-						{[
-							[
-								'Do I need to replace my phone number?',
-								'No. Start by forwarding missed calls or after-hours calls to Lunch Break AI.',
-							],
-							[
-								'Can it work without a dashboard?',
-								'Yes. The MVP can run on call forwarding, SMS, email summaries, and Lemon Squeezy billing.',
-							],
-							[
-								'Is this just voicemail?',
-								'No. Voicemail makes the customer do the work. Lunch Break AI has a real conversation and captures structured lead details.',
-							],
-							[
-								'What happens after the call?',
-								'The business owner gets a concise lead summary and the caller gets a confirmation text.',
-							],
-						].map(([q, a]) => (
+						{faqs.map(item => (
 							<div
-								key={q}
+								key={item.question}
 								className="rounded-3xl border border-white/10 bg-white/5 p-6"
 							>
-								<h3 className="text-lg font-semibold text-white">{q}</h3>
-								<p className="mt-2 leading-7 text-slate-300">{a}</p>
+								<h3 className="text-lg font-semibold text-white">
+									{item.question}
+								</h3>
+								<p className="mt-2 leading-7 text-slate-300">{item.answer}</p>
 							</div>
 						))}
 					</div>
@@ -458,30 +576,38 @@ export default function LunchBreakReceptionistLandingPage() {
 				<div className="mx-auto max-w-5xl rounded-[2rem] bg-blue-500 p-8 text-center text-white shadow-2xl shadow-blue-950/40 sm:p-12">
 					<Mail className="mx-auto mb-5 h-10 w-10" />
 					<h2 className="text-4xl font-bold tracking-tight">
-						Stop sending ready-to-buy callers to a dead mailbox.
+						Want to see if Lunch Break AI could help recover customers you are
+						currently missing?
 					</h2>
 					<p className="mx-auto mt-4 max-w-2xl text-lg text-blue-50">
-						Launch a simple AI receptionist that captures missed calls,
-						qualifies leads, and helps local businesses win jobs they were
-						already paying to attract.
+						Start the free demo and simulate a missed call. See the lead,
+						follow-up workflow, and revenue tracking in action.
 					</p>
+
 					<div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
 						<Button
+							asChild
 							size="lg"
 							className="rounded-2xl bg-white px-7 text-base text-slate-950 hover:bg-blue-50"
 						>
-							Join the early access list
+							<Link href="/beta">
+								Request beta access
+								<ArrowRight className="ml-2 h-5 w-5" />
+							</Link>
 						</Button>
+
 						<Button
+							asChild
 							size="lg"
 							variant="outline"
 							className="rounded-2xl border-white/40 bg-white/10 px-7 text-base text-white hover:bg-white/20"
 						>
-							Book a setup call
+							<Link href="/login">Log in</Link>
 						</Button>
 					</div>
 				</div>
 			</section>
+
 			<SiteFooter />
 		</main>
 	);

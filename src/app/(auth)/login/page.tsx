@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { loginAction } from './actions';
+import { GoogleSignInButton } from './google-sign-in-button';
 
 type LoginPageProps = {
 	searchParams?: Promise<{
@@ -79,6 +80,18 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 						Start free demo
 					</Link>
 				</p>
+				<div className="mt-6">
+					<div className="relative">
+						<div className="absolute inset-0 flex items-center">
+							<div className="w-full border-t border-white/10" />
+						</div>
+						<div className="relative flex justify-center text-sm">
+							<span className="bg-white/[0.04] px-3 text-slate-400">or</span>
+						</div>
+					</div>
+
+					<GoogleSignInButton />
+				</div>
 			</div>
 		</main>
 	);

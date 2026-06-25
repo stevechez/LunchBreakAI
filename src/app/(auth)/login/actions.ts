@@ -28,3 +28,21 @@ export async function loginAction(formData: FormData) {
 
 	redirect('/dashboard');
 }
+
+export async function getGoogleSignInUrl() {
+	const supabase = await createClient();
+
+	const { data, error } = await supabase.auth.signInWithOAuth({
+		provider: 'google',
+		options: {
+			// redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+			redirectTo: `http://localhost:3000/auth/callback`,
+		},
+	});
+
+	if (error || !data.url) {
+		return { error: error?.message ?? 'Could not sign in with Google' };
+	}
+
+	return { url: data.url };
+}

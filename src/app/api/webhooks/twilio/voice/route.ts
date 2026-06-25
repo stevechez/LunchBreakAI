@@ -4,6 +4,15 @@ import { createClient } from '@supabase/supabase-js';
 
 export const runtime = 'nodejs';
 
+function escapeXml(value: string) {
+	return value
+		.replaceAll('&', '&amp;')
+		.replaceAll('<', '&lt;')
+		.replaceAll('>', '&gt;')
+		.replaceAll('"', '&quot;')
+		.replaceAll("'", '&apos;');
+}
+
 function getServiceSupabase() {
 	const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 	const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -15,12 +24,16 @@ function getServiceSupabase() {
 	return createClient(supabaseUrl, serviceRoleKey);
 }
 
-function twimlResponse(message: string) {
+function twimlResponse(message: string, recordingActionUrl?: string) {
+	const recordAction = recordingActionUrl
+		? ` action="${escapeXml(recordingActionUrl)}" method="POST"`
+		: '';
+
 	const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Say voice="alice">${message}</Say>
-  <Record maxLength="60" transcribe="false" playBeep="true" />
-  <Say voice="alice">Thank you. We will pass this to the team right away.</Say>
+  <Say voice="Polly.Joanna-Neural">${escapeXml(message)}</Say>
+  <Record maxLength="60" transcribe="false" playBeep="true"${recordAction} />
+  <Say voice="Polly.Joanna-Neural">Thank you. We will get back to you shortly.</Say>
   <Hangup />
 </Response>`;
 
@@ -47,11 +60,9 @@ export async function POST(request: Request) {
 
 	const supabase = getServiceSupabase();
 
-	// Match the Twilio number to the business notification/assigned number.
-	// For now this assumes businesses.notification_phone stores the Lunch Break AI/Twilio number.
 	const { data: business, error: businessError } = await supabase
 		.from('businesses')
-		.select('id, name')
+		.select('id, name, twilio_phone_number')
 		.eq('twilio_phone_number', toPhone)
 		.maybeSingle();
 
@@ -92,29 +103,53 @@ export async function POST(request: Request) {
 		);
 	}
 
-	const { error: callError } = await supabase.from('calls').insert({
-		business_id: business.id,
-		lead_id: lead.id,
-		provider: 'twilio',
-		provider_call_id: callSid,
-		direction: 'inbound',
-		from_phone: fromPhone,
-		to_phone: toPhone,
-		status: 'received',
-		duration_seconds: null,
-		transcript: null,
-		ai_summary:
-			'Real inbound call captured. No AI transcript yet. Caller should be contacted quickly.',
-		recording_url: null,
-		started_at: new Date().toISOString(),
-		ended_at: null,
-	});
+	const { data: call, error: callError } = await supabase
+		.from('calls')
+		.insert({
+			business_id: business.id,
+			lead_id: lead.id,
+			provider: 'twilio',
+			provider_call_id: callSid,
+			direction: 'inbound',
+			from_phone: fromPhone,
+			to_phone: toPhone,
+			status: 'missed',
+			duration_seconds: null,
+			transcript: null,
+			ai_summary:
+				'Real inbound call captured. No AI transcript yet. Caller should be contacted quickly.',
+			recording_url: null,
+			started_at: new Date().toISOString(),
+			ended_at: null,
+		})
+		.select('id')
+		.single();
 
-	if (callError) {
-		console.error('Call insert failed:', callError);
+	if (callError || !call) {
+		console.error('Call insert failed:', {
+			error: callError,
+			businessId: business.id,
+			leadId: lead.id,
+			callSid,
+			fromPhone,
+			toPhone,
+		});
+
+		return twimlResponse(
+			'Thanks for calling. The team is unavailable right now, but your call has been received.',
+		);
 	}
 
+	const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+
+	const recordingActionUrl = appUrl
+		? `${appUrl}/api/webhooks/twilio/voice/recording?call_id=${encodeURIComponent(
+				call.id,
+			)}&lead_id=${encodeURIComponent(lead.id)}`
+		: undefined;
+
 	return twimlResponse(
-		'Thanks for calling. The team may be helping another customer right now. Please leave a short message after the beep, and we will send this to the team right away.',
+		'Hi, thanks for calling. We are with a customer right now but we do not want to miss you. Please leave a quick message after the beep and someone will get back to you shortly.',
+		recordingActionUrl,
 	);
 }
