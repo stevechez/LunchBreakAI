@@ -138,7 +138,7 @@ export async function POST(request: Request) {
 		);
 	}
 
-	await Promise.all([
+	Promise.all([
 		sendLeadEmailNotification({
 			supabase,
 			businessId: business.id,
@@ -151,7 +151,9 @@ export async function POST(request: Request) {
 			leadId: lead.id,
 			callId: call.id,
 		}),
-	]);
+	]).catch(err => {
+		console.error('Notification failed:', err);
+	});
 
 	const appUrl = process.env.NEXT_PUBLIC_APP_URL;
 
