@@ -1,6 +1,8 @@
 // src/app/api/webhooks/twilio/voice/route.ts
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { sendLeadEmailNotification } from '@/lib/notifications/send-lead-email';
+import { sendLeadSmsNotification } from '@/lib/notifications/send-lead-sms';
 
 export const runtime = 'nodejs';
 
@@ -135,6 +137,21 @@ export async function POST(request: Request) {
 			'Thanks for calling. The team is unavailable right now, but your call has been received.',
 		);
 	}
+
+	await Promise.all([
+		sendLeadEmailNotification({
+			supabase,
+			businessId: business.id,
+			leadId: lead.id,
+			callId: call.id,
+		}),
+		sendLeadSmsNotification({
+			supabase,
+			businessId: business.id,
+			leadId: lead.id,
+			callId: call.id,
+		}),
+	]);
 
 	const appUrl = process.env.NEXT_PUBLIC_APP_URL;
 
