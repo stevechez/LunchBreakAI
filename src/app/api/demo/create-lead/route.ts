@@ -17,108 +17,188 @@ type DemoLeadScenario = {
 
 const demoScenarios: DemoLeadScenario[] = [
 	{
-		caller_name: 'Demo Homeowner',
-		caller_phone: '+1 408 555 1234',
-		caller_email: 'demo.homeowner@example.com',
-		service_needed: 'Garage door spring repair',
-		job_location: 'Aptos, CA',
-		summary:
-			'Caller missed the business during lunch. Their garage door will not open, they believe the spring broke, and their car is stuck inside.',
-		urgency: 'high',
-		estimated_value: 450,
-		transcript: `AI: Thanks for calling. The team may be helping another customer, but I can get your request started. What can we help with?
-
-Caller: My garage door will not open. I think the spring broke.
-
-AI: Is the car stuck inside or outside?
-
-Caller: Inside. I need someone as soon as possible.
-
-AI: What city are you in?
-
-Caller: Aptos.
-
-AI: Got it. I will send this to the team right away so they can follow up with availability and pricing.`,
-		ai_summary:
-			'High-intent missed-call lead. Garage door will not open, possible broken spring, car stuck inside, located in Aptos. Caller wants urgent service.',
-	},
-	{
 		caller_name: 'Maria Lopez',
 		caller_phone: '+1 831 555 0188',
-		caller_email: 'maria@example.com',
-		service_needed: 'Garage door opener replacement',
-		job_location: 'Santa Cruz, CA',
+		caller_email: 'maria.lopez@example.com',
+		service_needed: 'AC not cooling — same day',
+		job_location: 'Salinas, CA',
 		summary:
-			'Caller says the opener is grinding and only works sometimes. They want pricing for repair versus replacement.',
-		urgency: 'normal',
+			'Caller says the AC stopped working overnight. House is at 84 degrees with two young kids. Wants same-day service and asked for a ballpark on repairs.',
+		urgency: 'emergency',
 		estimated_value: 650,
-		transcript: `AI: Thanks for calling. I can help get your garage door request started. What seems to be happening?
+		transcript: `AI: Hi, thanks for calling. The team is with a customer right now but I can get your request started. What is going on?
 
-Caller: My opener keeps grinding and sometimes it will not lift the door.
+Caller: Our AC stopped working last night and the house is up to 84 degrees. We have two little kids and it is really hot.
 
-AI: Understood. Are you looking for repair or replacement?
+AI: I am sorry to hear that. Is the unit running at all or is it completely off?
 
-Caller: I would like to know both options.
+Caller: It turns on but just blows warm air.
 
-AI: What city are you in?
+AI: Got it. What city are you in?
 
-Caller: Santa Cruz.
+Caller: Salinas, on the east side near Natividad.
 
-AI: Great. I will send this to the team so they can follow up with pricing and availability.`,
+AI: Thank you Maria. I am sending this to the team right now as urgent. Someone will call you back very shortly with availability and a ballpark on the repair.`,
 		ai_summary:
-			'Garage door opener issue. Caller wants repair-versus-replacement pricing. Located in Santa Cruz. Moderate urgency.',
+			'Emergency HVAC lead. AC unit running but not cooling. Home at 84 degrees with young children. Located in Salinas. High intent, wants same-day service and pricing.',
 	},
 	{
 		caller_name: 'James Carter',
 		caller_phone: '+1 650 555 7710',
-		caller_email: 'james@example.com',
-		service_needed: 'Garage door off track',
-		job_location: 'San Jose, CA',
+		caller_email: 'james.carter@example.com',
+		service_needed: 'Water heater replacement quote',
+		job_location: 'Watsonville, CA',
 		summary:
-			'Caller backed into the garage door and knocked it off track. They are worried the door may fall and want same-day help.',
-		urgency: 'emergency',
-		estimated_value: 850,
-		transcript: `AI: Thanks for calling. What can we help with?
+			'Caller says water heater is leaking from the bottom. About 8 years old. Wants a quote for replacement and asked if same-week install is possible.',
+		urgency: 'high',
+		estimated_value: 1200,
+		transcript: `AI: Thanks for calling. What can I help you with today?
 
-Caller: I backed into my garage door and now it is crooked and off the track.
+Caller: My water heater is leaking from the bottom. I think it needs to be replaced.
 
-AI: Is the door stuck open or closed?
+AI: How old is the unit roughly?
 
-Caller: Half open. I am worried it might fall.
+Caller: About eight years old I think.
 
-AI: What city are you in?
+AI: Is it a gas or electric heater?
 
-Caller: San Jose.
+Caller: Gas.
 
-AI: Got it. I will mark this as urgent and send it to the team right away.`,
+AI: Got it. Are you looking for a quote on replacement?
+
+Caller: Yes, and I want to know if you can do it this week. We have no hot water right now.
+
+AI: Understood. What city are you in?
+
+Caller: Watsonville, near the fairgrounds.
+
+AI: Perfect. I am sending this over to the team now. They will call you back shortly with a quote and availability this week.`,
 		ai_summary:
-			'Emergency garage door lead. Door is off track and partially open after impact. Safety concern. Located in San Jose.',
+			'High-intent plumbing lead. Gas water heater leaking from bottom, approximately 8 years old. No hot water currently. Caller wants replacement quote and same-week install. Located in Watsonville.',
 	},
 	{
 		caller_name: 'Karen Mitchell',
 		caller_phone: '+1 408 555 4422',
-		caller_email: 'karen@example.com',
-		service_needed: 'Noisy garage door inspection',
-		job_location: 'Capitola, CA',
+		caller_email: 'karen.mitchell@example.com',
+		service_needed: 'Roof leak inspection after rain',
+		job_location: 'Aptos, CA',
 		summary:
-			'Caller says the garage door has become very loud and shaky. They want an inspection before it becomes a bigger repair.',
+			"Caller noticed water stains on the ceiling after last week's rain. Wants an inspection and estimate before the next storm. Has a two-story house.",
 		urgency: 'normal',
-		estimated_value: 225,
-		transcript: `AI: Thanks for calling. What issue are you having with your garage door?
+		estimated_value: 850,
+		transcript: `AI: Thanks for calling. What is going on with your roof?
 
-Caller: It has become really loud and shaky when it opens.
+Caller: After the rain last week I noticed some water stains on my ceiling in the upstairs bedroom.
 
-AI: Is it still opening and closing?
+AI: Is water actively dripping or just staining?
 
-Caller: Yes, but it sounds bad.
+Caller: Just staining right now but I am worried about the next rain.
+
+AI: Makes sense. Is this a single story or two story home?
+
+Caller: Two story. The stain is in the master bedroom.
 
 AI: What city are you in?
 
+Caller: Aptos, off Soquel Drive.
+
+AI: Got it Karen. I am sending this to the team now so they can schedule an inspection and get you an estimate before the weather turns again.`,
+		ai_summary:
+			'Roofing inspection lead. Water stains appeared on upstairs ceiling after recent rain. Two-story home in Aptos. No active leak currently but caller is motivated to fix before next storm. Good opportunity.',
+	},
+	{
+		caller_name: 'David Nguyen',
+		caller_phone: '+1 831 555 3301',
+		caller_email: 'david.nguyen@example.com',
+		service_needed: 'Electrical panel upgrade quote',
+		job_location: 'Santa Cruz, CA',
+		summary:
+			'Caller is adding an EV charger and was told by an electrician they need a panel upgrade first. Wants a quote. Home built in 1978 with original 100-amp panel.',
+		urgency: 'normal',
+		estimated_value: 2800,
+		transcript: `AI: Thanks for calling. What electrical work are you looking to get done?
+
+Caller: I am trying to add an EV charger in my garage but another electrician told me I need to upgrade my panel first.
+
+AI: What size is your current panel?
+
+Caller: I think 100 amps. The house was built in 1978.
+
+AI: Got it. Are you looking for a quote on the panel upgrade and the charger together or just the panel?
+
+Caller: Both together if possible. I want to know the total cost.
+
+AI: What city are you in?
+
+Caller: Santa Cruz, near Westside.
+
+AI: Perfect. I am sending this to the team now. They will follow up with a quote that covers both the panel upgrade and the EV charger installation.`,
+		ai_summary:
+			'Electrical panel upgrade lead. 1978 home with 100-amp panel needs upgrade before EV charger install. Caller wants combined quote for panel and charger. Located on Westside Santa Cruz. High-value job.',
+	},
+	{
+		caller_name: 'Sandra Reyes',
+		caller_phone: '+1 408 555 9922',
+		caller_email: 'sandra.reyes@example.com',
+		service_needed: 'Deep cleaning before home sale',
+		job_location: 'Capitola, CA',
+		summary:
+			'Caller is listing her home in three weeks and wants a deep clean including carpets, windows, and appliances. Three-bedroom, two-bath single story.',
+		urgency: 'normal',
+		estimated_value: 480,
+		transcript: `AI: Thanks for calling. What kind of cleaning service are you looking for?
+
+Caller: I am selling my house and I want a really thorough deep clean before we list it. Carpets, windows, all the appliances inside and out.
+
+AI: How many bedrooms and bathrooms?
+
+Caller: Three bedrooms, two bathrooms. Single story.
+
+AI: When are you hoping to have it done by?
+
+Caller: We are listing in about three weeks so sometime in the next two weeks would be great.
+
+AI: What city is the home in?
+
 Caller: Capitola.
 
-AI: Thanks. I will send this to the team so they can follow up about an inspection.`,
+AI: Great. I am sending this to the team now and they will follow up with availability and a quote for the full pre-listing deep clean.`,
 		ai_summary:
-			'Garage door inspection lead. Door is loud and shaky but still operating. Located in Capitola. Good preventative service opportunity.',
+			'Pre-listing deep clean lead. Three bed, two bath single story in Capitola. Needs carpets, windows, and appliances. Timeline is within two weeks before home listing. Motivated seller.',
+	},
+	{
+		caller_name: 'Tom Becker',
+		caller_phone: '+1 831 555 7788',
+		caller_email: 'tom.becker@example.com',
+		service_needed: 'Fence repair after storm damage',
+		job_location: 'Scotts Valley, CA',
+		summary:
+			"Last week's wind knocked down about 30 feet of wood fence along the back property line. Caller wants a repair or replacement quote and asked about timing.",
+		urgency: 'normal',
+		estimated_value: 1400,
+		transcript: `AI: Thanks for calling. What is going on?
+
+Caller: We had that big wind storm last week and it took down a section of our fence in the backyard.
+
+AI: About how much fencing came down?
+
+Caller: Maybe 30 feet along the back. It is a wood fence.
+
+AI: Is it completely down or just leaning?
+
+Caller: Completely down. A couple of posts snapped at the base.
+
+AI: Got it. Are you looking to repair what is there or replace that section?
+
+Caller: Whatever makes more sense. I would like a quote for both if possible.
+
+AI: What city are you in?
+
+Caller: Scotts Valley.
+
+AI: Thanks Tom. I am sending this to the team now and they will follow up with options and pricing for the repair and replacement.`,
+		ai_summary:
+			'Fence repair lead. Storm damage took down approximately 30 feet of wood fencing with snapped posts. Located in Scotts Valley. Caller open to repair or replacement and wants comparison quote. Good job size.',
 	},
 ];
 
@@ -202,7 +282,7 @@ export async function POST() {
 		provider_call_id: `demo-${crypto.randomUUID()}`,
 		direction: 'inbound',
 		from_phone: scenario.caller_phone,
-		to_phone: '+1 866 555 3434',
+		to_phone: '+18314329642',
 		status: 'completed',
 		duration_seconds: 82,
 		transcript: scenario.transcript,
